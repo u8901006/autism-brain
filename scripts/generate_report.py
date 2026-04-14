@@ -49,6 +49,12 @@ def analyze_papers(api_key: str, papers_data: dict) -> dict:
     papers_text = json.dumps(
         papers_data.get("papers", []), ensure_ascii=False, indent=2
     )
+    if len(papers_text) > 30000:
+        papers = papers_data.get("papers", [])
+        papers = [{k: v for k, v in p.items() if k != "abstract"} for p in papers]
+        papers_text = json.dumps(papers, ensure_ascii=False, indent=2)
+    if len(papers_text) > 30000:
+        papers_text = papers_text[:30000] + "\n...[truncated]"
 
     prompt = f"""以下是 {date_str} 從 PubMed 抓取的最新自閉症譜系障礙相關文獻（共 {paper_count} 篇）。
 
@@ -116,7 +122,7 @@ def analyze_papers(api_key: str, papers_data: dict) -> dict:
         ],
         "temperature": 0.3,
         "top_p": 0.9,
-        "max_tokens": 8192,
+        "max_tokens": 4096,
     }
 
     models_to_try = [MODEL_NAME, "glm-4-plus", "glm-4-flash", "glm-4"]
@@ -133,7 +139,7 @@ def analyze_papers(api_key: str, papers_data: dict) -> dict:
                     f"{API_BASE}/chat/completions",
                     headers=headers,
                     json=payload,
-                    timeout=120,
+                    timeout=300,
                 )
                 if resp.status_code == 429:
                     wait = 60 * (attempt + 1)
@@ -142,7 +148,10 @@ def analyze_papers(api_key: str, papers_data: dict) -> dict:
                     continue
                 resp.raise_for_status()
                 data = resp.json()
-                text = data["choices"][0]["message"]["content"].strip()
+                msg = data["choices"][0]["message"]
+                text = msg.get("content", "").strip()
+                if not text and msg.get("reasoning_content"):
+                    text = msg["reasoning_content"].strip()
                 if text.startswith("```"):
                     text = text.split("\n", 1)[1] if "\n" in text else text[3:]
                     text = text.rstrip("`").strip()
