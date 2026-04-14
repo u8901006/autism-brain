@@ -13,8 +13,10 @@
   h1 { text-align: center; font-size: 24px; color: var(--text); margin-bottom: 8px; }
   .subtitle { text-align: center; color: var(--accent); font-size: 14px; margin-bottom: 48px; }
   .count { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 32px; }
-  .placeholder { text-align: center; padding: 40px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 32px; }
-  .placeholder p { font-size: 15px; color: var(--muted); line-height: 1.8; }
+  ul { list-style: none; }
+  li { margin-bottom: 8px; }
+  a { color: var(--text); text-decoration: none; display: block; padding: 14px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; transition: all 0.2s; font-size: 15px; }
+  a:hover { background: var(--accent-soft); border-color: var(--accent); transform: translateX(4px); }
   .clinic-links { margin-top: 40px; display: flex; flex-direction: column; gap: 10px; }
   .clinic-a { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; padding: 14px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; transition: all 0.2s; font-size: 14px; }
   .clinic-a:hover { background: var(--accent-soft); border-color: var(--accent); }
@@ -29,9 +31,9 @@
   <div class="logo">🧩</div>
   <h1>Autism Brain</h1>
   <p class="subtitle">自閉症譜系障礙文獻日報 · 每日自動更新</p>
-  <div class="placeholder">
-    <p>🚀 系統建置中，即將開始每日自動更新。<br/>首次報告將在下一個排程時間自動生成。</p>
-  </div>
+  <p class="count">共 1 期日報</p>
+  <ul><li><a href="autism-2026-04-14.html">📅 2026年4月14日（週二）</a></li>
+</ul>
   <div class="clinic-links">
     <a href="https://www.leepsyclinic.com/" class="clinic-a" target="_blank">
       <span>🏥</span>
