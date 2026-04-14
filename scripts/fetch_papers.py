@@ -12,6 +12,7 @@ from datetime import datetime, timezone, timedelta
 from urllib.request import urlopen, Request
 from urllib.error import URLError
 from urllib.parse import quote_plus
+import time
 
 PUBMED_SEARCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
 PUBMED_FETCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
@@ -86,18 +87,23 @@ def search_papers(query: str, retmax: int = 20) -> list[str]:
 def fetch_details(pmids: list[str]) -> list[dict]:
     if not pmids:
         return []
-    ids = ",".join(pmids)
-    params = f"?db=pubmed&id={ids}&retmode=xml"
-    url = PUBMED_FETCH + params
-    try:
-        req = Request(url, headers=HEADERS)
-        with urlopen(req, timeout=60) as resp:
-            xml_data = resp.read().decode()
-    except Exception as e:
-        print(f"[ERROR] PubMed fetch failed: {e}", file=sys.stderr)
-        return []
-
     papers = []
+    batch_size = 20
+    for i in range(0, len(pmids), batch_size):
+        batch = pmids[i:i + batch_size]
+        ids = ",".join(batch)
+        params = f"?db=pubmed&id={ids}&retmode=xml"
+        url = PUBMED_FETCH + params
+        try:
+            req = Request(url, headers=HEADERS)
+            with urlopen(req, timeout=60) as resp:
+                xml_data = resp.read().decode()
+        except Exception as e:
+            print(f"[ERROR] PubMed fetch failed (batch {i}): {e}", file=sys.stderr)
+            time.sleep(2)
+            continue
+        if i + batch_size < len(pmids):
+            time.sleep(1)
     try:
         root = ET.fromstring(xml_data)
         for article in root.findall(".//PubmedArticle"):
@@ -186,6 +192,7 @@ def main():
         print(f"[INFO] Topic query {i+1}/{len(topic_queries)}...", file=sys.stderr)
         pmids = search_papers(tq, retmax=10)
         all_pmids.update(pmids)
+        time.sleep(0.5)
 
     pmid_list = list(all_pmids)
     print(f"[INFO] Total unique PMIDs: {len(pmid_list)}", file=sys.stderr)
