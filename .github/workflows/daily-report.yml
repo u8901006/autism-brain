@@ -48,13 +48,18 @@ jobs:
           fi
           echo "Date: $(cat $GITHUB_OUTPUT | grep target | cut -d= -f2)"
 
+      - name: Build exclude list from past 7 days
+        run: |
+          python scripts/build_exclude.py --days 7 --output reported_pmids.json
+
       - name: Fetch papers from PubMed
         run: |
           python scripts/fetch_papers.py \
             --days 7 \
             --max-papers 40 \
             --json \
-            --output papers.json
+            --output papers.json \
+            --exclude reported_pmids.json
         continue-on-error: true
 
       - name: Check papers data
@@ -78,6 +83,14 @@ jobs:
             --input papers.json \
             --output docs/autism-${{ steps.date.outputs.target }}.html \
             --api-key "$ZHIPU_API_KEY"
+
+      - name: Update reported PMIDs tracking
+        run: |
+          python scripts/update_tracking.py \
+            --papers papers.json \
+            --tracking docs/reported_pmids.json \
+            --date ${{ steps.date.outputs.target }} \
+            --keep-days 7
 
       - name: Generate index page
         run: python scripts/generate_index.py

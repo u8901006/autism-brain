@@ -6,6 +6,7 @@ Targets core autism journals and covers major autism spectrum topics.
 
 import json
 import sys
+import os
 import argparse
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
@@ -102,73 +103,94 @@ def fetch_details(pmids: list[str]) -> list[dict]:
             print(f"[ERROR] PubMed fetch failed (batch {i}): {e}", file=sys.stderr)
             time.sleep(2)
             continue
+
+        try:
+            root = ET.fromstring(xml_data)
+            for article in root.findall(".//PubmedArticle"):
+                medline = article.find(".//MedlineCitation")
+                art = medline.find(".//Article") if medline else None
+                if art is None:
+                    continue
+
+                title_el = art.find(".//ArticleTitle")
+                title = (
+                    (title_el.text or "").strip()
+                    if title_el is not None and title_el.text
+                    else ""
+                )
+
+                abstract_parts = []
+                for abs_el in art.findall(".//Abstract/AbstractText"):
+                    label = abs_el.get("Label", "")
+                    text = "".join(abs_el.itertext()).strip()
+                    if label and text:
+                        abstract_parts.append(f"{label}: {text}")
+                    elif text:
+                        abstract_parts.append(text)
+                abstract = " ".join(abstract_parts)[:2000]
+
+                journal_el = art.find(".//Journal/Title")
+                journal = (
+                    (journal_el.text or "").strip()
+                    if journal_el is not None and journal_el.text
+                    else ""
+                )
+
+                pub_date = art.find(".//PubDate")
+                date_str = ""
+                if pub_date is not None:
+                    year = pub_date.findtext("Year", "")
+                    month = pub_date.findtext("Month", "")
+                    day = pub_date.findtext("Day", "")
+                    parts = [p for p in [year, month, day] if p]
+                    date_str = " ".join(parts)
+
+                pmid_el = medline.find(".//PMID")
+                pmid = pmid_el.text if pmid_el is not None else ""
+                link = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if pmid else ""
+
+                keywords = []
+                for kw in medline.findall(".//KeywordList/Keyword"):
+                    if kw.text:
+                        keywords.append(kw.text.strip())
+
+                papers.append(
+                    {
+                        "pmid": pmid,
+                        "title": title,
+                        "journal": journal,
+                        "date": date_str,
+                        "abstract": abstract,
+                        "url": link,
+                        "keywords": keywords,
+                    }
+                )
+        except ET.ParseError as e:
+            print(f"[ERROR] XML parse failed (batch {i}): {e}", file=sys.stderr)
+
         if i + batch_size < len(pmids):
             time.sleep(1)
-    try:
-        root = ET.fromstring(xml_data)
-        for article in root.findall(".//PubmedArticle"):
-            medline = article.find(".//MedlineCitation")
-            art = medline.find(".//Article") if medline else None
-            if art is None:
-                continue
-
-            title_el = art.find(".//ArticleTitle")
-            title = (
-                (title_el.text or "").strip()
-                if title_el is not None and title_el.text
-                else ""
-            )
-
-            abstract_parts = []
-            for abs_el in art.findall(".//Abstract/AbstractText"):
-                label = abs_el.get("Label", "")
-                text = "".join(abs_el.itertext()).strip()
-                if label and text:
-                    abstract_parts.append(f"{label}: {text}")
-                elif text:
-                    abstract_parts.append(text)
-            abstract = " ".join(abstract_parts)[:2000]
-
-            journal_el = art.find(".//Journal/Title")
-            journal = (
-                (journal_el.text or "").strip()
-                if journal_el is not None and journal_el.text
-                else ""
-            )
-
-            pub_date = art.find(".//PubDate")
-            date_str = ""
-            if pub_date is not None:
-                year = pub_date.findtext("Year", "")
-                month = pub_date.findtext("Month", "")
-                day = pub_date.findtext("Day", "")
-                parts = [p for p in [year, month, day] if p]
-                date_str = " ".join(parts)
-
-            pmid_el = medline.find(".//PMID")
-            pmid = pmid_el.text if pmid_el is not None else ""
-            link = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if pmid else ""
-
-            keywords = []
-            for kw in medline.findall(".//KeywordList/Keyword"):
-                if kw.text:
-                    keywords.append(kw.text.strip())
-
-            papers.append(
-                {
-                    "pmid": pmid,
-                    "title": title,
-                    "journal": journal,
-                    "date": date_str,
-                    "abstract": abstract,
-                    "url": link,
-                    "keywords": keywords,
-                }
-            )
-    except ET.ParseError as e:
-        print(f"[ERROR] XML parse failed: {e}", file=sys.stderr)
 
     return papers
+
+
+def load_exclude_pmids(path: str) -> set[str]:
+    if not path or not os.path.exists(path):
+        return set()
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            pmids = set()
+            for date_key, id_list in data.items():
+                if isinstance(id_list, list):
+                    pmids.update(str(x) for x in id_list)
+            return pmids
+        elif isinstance(data, list):
+            return set(str(x) for x in data)
+    except Exception as e:
+        print(f"[WARN] Could not load exclude file: {e}", file=sys.stderr)
+    return set()
 
 
 def main():
@@ -177,7 +199,12 @@ def main():
     parser.add_argument("--max-papers", type=int, default=40, help="Max papers to fetch")
     parser.add_argument("--output", default="-", help="Output file (- for stdout)")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
+    parser.add_argument("--exclude", default="", help="JSON file with previously reported PMIDs to exclude")
     args = parser.parse_args()
+
+    exclude_pmids = load_exclude_pmids(args.exclude)
+    if exclude_pmids:
+        print(f"[INFO] Loaded {len(exclude_pmids)} previously reported PMIDs to exclude", file=sys.stderr)
 
     all_pmids = set()
 
@@ -196,6 +223,12 @@ def main():
 
     pmid_list = list(all_pmids)
     print(f"[INFO] Total unique PMIDs: {len(pmid_list)}", file=sys.stderr)
+
+    before = len(pmid_list)
+    pmid_list = [p for p in pmid_list if p not in exclude_pmids]
+    excluded_count = before - len(pmid_list)
+    if excluded_count:
+        print(f"[INFO] Excluded {excluded_count} previously reported PMIDs", file=sys.stderr)
 
     if not pmid_list:
         print("NO_CONTENT", file=sys.stderr)
