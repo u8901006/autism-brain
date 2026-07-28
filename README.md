@@ -2,12 +2,12 @@
 
 自閉症譜系障礙（ASD）文獻每日自動追蹤系統。
 
-每天自動從 PubMed 抓取最新自閉症相關文獻，由 Zhipu AI (GLM-5.1) 進行摘要分析，生成繁體中文日報，部署於 GitHub Pages。
+每天自動從 PubMed 抓取最新自閉症相關文獻，由 NVIDIA Nemotron 進行摘要分析，生成繁體中文日報，部署於 GitHub Pages。
 
 ## 架構
 
 - **資料來源**：PubMed E-utilities API
-- **分析模型**：Zhipu AI GLM-5.1 (Coding Plan)
+- **分析模型**：NVIDIA Nemotron 3 Super（fallback: Nemotron 3 Nano）
 - **排程**：GitHub Actions（每天台北時間 00:00）
 - **部署**：GitHub Pages
 
