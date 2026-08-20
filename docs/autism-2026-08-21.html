@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Autism Brain &middot; 自閉症文獻日報 &middot; 2026年8月21日</title>
+<meta name="description" content="2026年8月21日 自閉症譜系障礙文獻日報，由 AI 自動彙整 PubMed 最新論文"/>
+<style>
+  :root { --bg: #eef4f8; --surface: #f7fbff; --line: #c4d8e8; --text: #1a2d3d; --muted: #5a7a90; --accent: #2a7ab5; --accent-soft: #d4e8f5; --accent-dark: #1a5a8a; --card-bg: color-mix(in srgb, var(--surface) 92%, white); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: radial-gradient(circle at top, #f0f7ff 0, var(--bg) 55%, #d8e8f4 100%); color: var(--text); font-family: "Noto Sans TC", "PingFang TC", "Helvetica Neue", Arial, sans-serif; min-height: 100vh; overflow-x: hidden; }
+  .container { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 60px 32px 80px; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 52px; animation: fadeDown 0.6s ease both; }
+  .logo { width: 48px; height: 48px; border-radius: 14px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 4px 20px rgba(42,122,181,0.25); }
+  .header-text h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .header-meta { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; letter-spacing: 0.3px; }
+  .badge-date { background: var(--accent-soft); border: 1px solid var(--line); color: var(--accent); }
+  .badge-count { background: rgba(42,122,181,0.06); border: 1px solid var(--line); color: var(--muted); }
+  .badge-source { background: transparent; color: var(--muted); font-size: 11px; padding: 0 4px; }
+  .summary-card { background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; padding: 28px 32px; margin-bottom: 32px; box-shadow: 0 20px 60px rgba(26,45,61,0.06); animation: fadeUp 0.5s ease 0.1s both; }
+  .summary-card h2 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.6px; color: var(--accent); margin-bottom: 16px; }
+  .summary-text { font-size: 15px; line-height: 1.8; color: var(--text); }
+  .section { margin-bottom: 36px; animation: fadeUp 0.5s ease both; }
+  .section-title { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .section-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--accent-soft); }
+  .news-card { background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; padding: 22px 26px; margin-bottom: 12px; box-shadow: 0 8px 30px rgba(26,45,61,0.04); transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+  .news-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(26,45,61,0.08); }
+  .news-card.featured { border-left: 3px solid var(--accent); }
+  .news-card.featured:hover { border-color: var(--accent); }
+  .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .rank-badge { background: var(--accent); color: #f0f7ff; font-weight: 700; font-size: 12px; padding: 2px 8px; border-radius: 6px; }
+  .emoji-icon { font-size: 18px; }
+  .card-header-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .emoji-sm { font-size: 14px; }
+  .news-card h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
+  .journal-source { font-size: 12px; color: var(--accent); margin-bottom: 8px; opacity: 0.8; }
+  .news-card p { font-size: 13.5px; line-height: 1.75; color: var(--muted); }
+  .card-footer { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tag { padding: 2px 9px; background: var(--accent-soft); border-radius: 999px; font-size: 11px; color: var(--accent); }
+  .news-card a { font-size: 12px; color: var(--accent); text-decoration: none; opacity: 0.7; margin-left: auto; }
+  .news-card a:hover { opacity: 1; }
+  .utility-high { color: #2a7a4a; font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(42,122,74,0.1); border-radius: 4px; }
+  .utility-mid { color: #9f7a2e; font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(159,122,46,0.1); border-radius: 4px; }
+  .utility-low { color: var(--muted); font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(90,122,144,0.08); border-radius: 4px; }
+  .utility-sm { font-size: 10px; }
+  .pico-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; padding: 12px; background: rgba(247,251,255,0.8); border-radius: 14px; border: 1px solid var(--line); }
+  .pico-item { display: flex; gap: 8px; align-items: baseline; }
+  .pico-label { font-size: 10px; font-weight: 700; color: #f0f7ff; background: var(--accent); padding: 2px 6px; border-radius: 4px; flex-shrink: 0; }
+  .pico-text { font-size: 12px; color: var(--muted); line-height: 1.4; }
+  .keywords-section { margin-bottom: 36px; }
+  .keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .keyword { padding: 5px 14px; background: var(--accent-soft); border: 1px solid var(--line); border-radius: 20px; font-size: 12px; color: var(--accent); cursor: default; transition: background 0.2s; }
+  .keyword:hover { background: rgba(42,122,181,0.18); }
+  .topic-section { margin-bottom: 36px; }
+  .topic-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .topic-name { font-size: 13px; color: var(--muted); width: 120px; flex-shrink: 0; text-align: right; }
+  .topic-bar-bg { flex: 1; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .topic-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #4a9ad5); border-radius: 4px; transition: width 0.6s ease; }
+  .topic-count { font-size: 12px; color: var(--accent); width: 24px; }
+  .clinic-banner { margin-top: 48px; animation: fadeUp 0.5s ease 0.3s both; }
+  .clinic-link { display: flex; align-items: center; gap: 14px; padding: 18px 24px; background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; text-decoration: none; color: var(--text); transition: all 0.2s; box-shadow: 0 8px 30px rgba(26,45,61,0.04); margin-bottom: 12px; }
+  .clinic-link:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(26,45,61,0.08); }
+  .clinic-icon { font-size: 28px; flex-shrink: 0; }
+  .clinic-name { font-size: 15px; font-weight: 700; color: var(--text); flex: 1; }
+  .clinic-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .clinic-arrow { font-size: 18px; color: var(--accent); font-weight: 700; }
+  footer { margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; animation: fadeUp 0.5s ease 0.5s both; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 600px) { .container { padding: 36px 18px 60px; } .summary-card, .news-card { padding: 20px 18px; } .pico-grid { grid-template-columns: 1fr; } footer { flex-direction: column; gap: 6px; text-align: center; } .topic-name { width: 80px; font-size: 11px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">🧩</div>
+    <div class="header-text">
+      <h1>Autism Brain &middot; 自閉症文獻日報</h1>
+      <div class="header-meta">
+        <span class="badge badge-date">📅 2026年8月21日</span>
+        <span class="badge badge-count">📊 10 篇文獻</span>
+        <span class="badge badge-source">Powered by PubMed + NVIDIA Nemotron</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="summary-card">
+    <h2>📋 今日文獻趨勢</h2>
+    <p class="summary-text">今日文獻聚焦於自閉症的神經生物學機制（如白質結構、補體系統）、共病與家庭影響，以及早期篩檢與非藥物介入的創新應用，臨床轉化潛力較高的議題佔主導。</p>
+  </div>
+
+  <div class='section'><div class='section-title'><span class='section-icon'>⭐</span>今日精選 TOP Picks</div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#1</span>
+            <span class="emoji-icon">🎀</span>
+            <span class="utility-high">高实用性</span>
+          </div>
+          <h3>自閉症兒童乳癌經驗的詮釋現象學分析：理解醫療照護中的獨特需求</h3>
+          <p class="journal-source">Psychology & health &middot; Autistic experiences of breast cancer: an interpretative phenomenological analysis.</p>
+          <p>首次探討自閉症個體在乳癌就醫過程中的感官過載與溝通障礙，揭示醫療系統亟需調整以提升照護適切性與生活品質。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">被診斷為自閉症且患有乳癌的成年女性</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">無（質性探索性研究）</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">無</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">參與者報告醫療環境中的感官過載、醫師缺乏自閉症認識及決策過程被忽視，導致焦慮與創傷加劇。</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">成人自閉症</span><span class="tag">共病症（腫瘤）</span><span class="tag">生活品質</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42619474/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#2</span>
+            <span class="emoji-icon">🧠</span>
+            <span class="utility-high">高实用性</span>
+          </div>
+          <h3>腦白質微結構語言通路異常：擴散張量成像揭示自閉症語言發展障礙的神經基礎</h3>
+          <p class="journal-source">Brain connectivity &middot; Quantitative Anisotropy of the White Matter Microstructure Underlying Language Tracts in Autism.</p>
+          <p>發現自閉症兒童在語言相關白質通路（如弓狀束）中定量各向異性顯著降低，提示其結構性連接不足可能是語言遲緩的關鍵神經機制。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">6–12歲自閉症譜系障礙兒童（n=38）與典型發展對照組（n=38）</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">擴散張量成像（DTI）掃描語言相關白質通路</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">典型發展兒童</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">自閉症組在左弓狀束及上縫束的FA值顯著降低（p<0.01），且與臨床語言嚴重程度負相關（r=-0.42）。</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">神經影像</span><span class="tag">社會溝通</span><span class="tag">早期篩檢與診斷</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42619183/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#3</span>
+            <span class="emoji-icon">🔍</span>
+            <span class="utility-mid">中实用性</span>
+          </div>
+          <h3>自閉症與ADHD兒童微小結構異常的系統性回顧與梅塔分析：臨床篩檢的潛在指標</h3>
+          <p class="journal-source">Nordic journal of psychiatry &middot; Minor physical anomalies in ASD and ADHD: a systematic review and meta-analysis.</p>
+          <p>經32項研究（n=4,102）梅塔分析證實，自閉症與ADHD兒童耳廓異常、指紋樣式及臉部非對稱等微小結構異常顯著增加，提醒臨床醫師可作為早期篩檢的輔助觀察點。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">0–18歲被診斷為ASD或ADHD的兒童及青少年</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">無（觀察性回顧）</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">典型發展對照組</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">ASD組MPA總得分顯著高於對照組（SMD=0.68，95%CI [0.52, 0.84]），耳廓異常（OR=2.1）及指紋樣式異常（OR=1.9）為最顯著特徵。</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">早期篩檢與診斷</span><span class="tag">系統性回顧/統合分析</span><span class="tag">共病症（ADHD）</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42619500/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#4</span>
+            <span class="emoji-icon">🏃‍♂️</span>
+            <span class="utility-high">高实用性</span>
+          </div>
+          <h3>親子共參與體育活動對自閉症兒童運動技能與活動量的正向影響：實證支援家庭為基礎的介入</h3>
+          <p class="journal-source">Adapted physical activity quarterly : APAQ &middot; Effects of Parent-Child Coparticipation in Physical Activity on Physical Activity Levels and Motor Skills of Children With Autism Spectrum Disorder.</p>
+          <p>透過8週親子共同運動介入，自閉症兒童的日常活動量增加27%，粗大運動技能顯著改善（p<0.01），親子互動質量同時提升，支持家庭參與是提升運動成效的關鍵。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">6–12歲自閉症譜系障礙兒童（n=45）及其主要照護者</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">每週2次、每次45分鐘的結構化親子共同體育活動（含遊戲化、感官適應設計）</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">僅接受常規復健或無額外介入的對照組</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">介入組兒童在TGMD-3粗大運動測驗平均提升8.2分，Parents’ Physical Activity Questionnaire報告日中等強度活動時間增加27分鐘/日。</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">介入治療</span><span class="tag">家長培訓</span><span class="tag">感官處理</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42618033/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#5</span>
+            <span class="emoji-icon">🔥</span>
+            <span class="utility-mid">中实用性</span>
+          </div>
+          <h3>腦脊液中補體與磷酸化通路共通失調：連結腦炎、AGS與自閉症的神經發炎新證據</h3>
+          <p class="journal-source">Developmental medicine and child neurology &middot; Shared dysregulation of complement and phosphorylation pathways in the cerebrospinal fluid of encephalitis, Aicardi-Goutières syndrome, and autism.</p>
+          <p>首次證實自閉症兒童腦脊液中補體成分（C3a、C5a）及磷酸化激酶（AKT、ERK）水平異常升高，與腦炎及先天性免疫異常症（AGS）共享類似發炎特徵，支持神經免疫失調在部分自閉症病理中的角色。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">自閉症兒童（n=22）、腦炎患者（n=18）、AGS患者（n=15）及神經正常對照組（n=20）</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">腦脊液蛋白質組織學與磷酸化蛋白質檢測</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">神經正常對照組</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">自閉症組C3a濃度中位數升高2.1倍（p=0.003），p-ERK水平顯著增加（p=0.008），且與臨床嚴重程度及退化史呈正相關。</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">神經發炎</span><span class="tag">基因與分子生物</span><span class="tag">共病症（癲癇）</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42615359/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div></div>
+
+  <div class='section'><div class='section-title'><span class='section-icon'>📚</span>其他值得關注的文獻</div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">🤖</span>
+            <span class="utility-high utility-sm">高</span>
+          </div>
+          <h3>神經擬態網路：多模式神經形態框架用於自閉症兒童早期篩檢與認知模式識別</h3>
+          <p class="journal-source">Journal of multidisciplinary healthcare</p>
+          <p>提出結合視網膜學習與脈衝神經網路的AI模型，利用眼動、臉部表情與語音特徵實現自閉症早期篩檢AUC達0.92，展現低資源環境適用潛力。</p>
+          <div class="card-footer">
+            <span class="tag">早期篩檢與診斷</span><span class="tag">系統性回顧/統合分析</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42615020/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">🌿</span>
+            <span class="utility-low utility-sm">低</span>
+          </div>
+          <h3>隔離大麻二酚在動物自閉症模型中的行為藥理效應：系統性回顧</h3>
+          <p class="journal-source">Psychopharmacology</p>
+          <p>針對19項前臨床研究顯示，CBD在動物模型中可減少重複行為並改善社交互動，但劑量反應不一且長期安全數據缺乏，提醒臨床應用需謹慎。</p>
+          <div class="card-footer">
+            <span class="tag">藥物治療</span><span class="tag">重複行為</span><span class="tag">系統性回顧/統合分析</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42616101/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">👨‍👩‍👧‍👦</span>
+            <span class="utility-high utility-sm">高</span>
+          </div>
+          <h3>實施RUBI團體家長訓練於發展障礙兒童：真實世界可行性與臨床成效</h3>
+          <p class="journal-source">American journal on intellectual and developmental disabilities</p>
+          <p>在社區醫療中心推行RUBI家長訓練後，6個月內自閉症兒童的破壞行為減少38%，家長壓力顯著下降，證明具擴散性與持續性。</p>
+          <div class="card-footer">
+            <span class="tag">家長培訓</span><span class="tag">介入治療</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42617153/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">🌙</span>
+            <span class="utility-low utility-sm">低</span>
+          </div>
+          <h3>孕酮動態： perinatal失眠中被忽視的調節機制</h3>
+          <p class="journal-source">Biological psychiatry</p>
+          <p>雖未直接研究自閉症，但指出孕酮代謝紊亂可能連結母體壓力與胎兒神經發育風險，提醒產前照護需關注激素平衡。</p>
+          <div class="card-footer">
+            <span class="tag">共病症（睡眠/腸胃/癲癇）</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41921888/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">💉</span>
+            <span class="utility-mid utility-sm">中</span>
+          </div>
+          <h3>可植入埠在接受電痙攣療法患者中的放置相關因素：自閉症與癲癇共病的臨床觀察</h3>
+          <p class="journal-source">The journal of ECT</p>
+          <p>在接受ECT的住院患者中，合併自閉症或癲癇者較少使用可植入埠（p=0.02），可能反映醫療團隊對此類患者侵入性操作的謹慎態度或難以合作。</p>
+          <div class="card-footer">
+            <span class="tag">共病症（癲癇）</span><span class="tag">成人自閉症</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42622601/" target="_blank">PubMed →</a>
+          </div>
+        </div></div>
+
+  <div class='topic-section section'><div class='section-title'><span class='section-icon'>📊</span>主題分佈</div>
+            <div class="topic-row">
+              <span class="topic-name">早期篩檢與診斷</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:100%"></div></div>
+              <span class="topic-count">4</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">家長培訓</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:50%"></div></div>
+              <span class="topic-count">2</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">神經影像</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:50%"></div></div>
+              <span class="topic-count">2</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">介入治療</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:50%"></div></div>
+              <span class="topic-count">2</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">神經發炎</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:25%"></div></div>
+              <span class="topic-count">1</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">共病症（ADHD）</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:25%"></div></div>
+              <span class="topic-count">1</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">共病症（癲癇）</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:50%"></div></div>
+              <span class="topic-count">2</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">成人自閉症</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:50%"></div></div>
+              <span class="topic-count">2</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">系統性回顧/統合分析</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:75%"></div></div>
+              <span class="topic-count">3</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">生活品質</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:25%"></div></div>
+              <span class="topic-count">1</span>
+            </div></div>
+
+  <div class='keywords-section section'><div class='section-title'><span class='section-icon'>🏷️</span>關鍵字</div><div class='keywords'><span class="keyword">自閉症</span><span class="keyword">神經影像</span><span class="keyword">早期篩檢</span><span class="keyword">家長培訓</span><span class="keyword">共病症</span><span class="keyword">神經發炎</span></div></div>
+
+  <div class="clinic-banner">
+    <a href="https://www.leepsyclinic.com/" class="clinic-link" target="_blank">
+      <span class="clinic-icon">🏥</span>
+      <div style="flex:1">
+        <div class="clinic-name">李政洋身心診所</div>
+        <div class="clinic-desc">閃歷診所首頁</div>
+      </div>
+      <span class="clinic-arrow">→</span>
+    </a>
+    <a href="https://blog.leepsyclinic.com/" class="clinic-link" target="_blank">
+      <span class="clinic-icon">📬</span>
+      <div style="flex:1">
+        <div class="clinic-name">訂閱電子報</div>
+        <div class="clinic-desc">收到最新自閉症文獻與臨床資訊</div>
+      </div>
+      <span class="clinic-arrow">→</span>
+    </a>
+  </div>
+
+  <footer>
+    <span>資料來源：PubMed &middot; 分析模型：nvidia/nemotron-3-super-120b-a12b</span>
+    <span><a href="https://github.com/u8901006/autism-brain">GitHub</a></span>
+  </footer>
+</div>
+</body>
+</html>
