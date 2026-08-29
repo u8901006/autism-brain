@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Autism Brain &middot; 自閉症文獻日報 &middot; 2026年8月30日</title>
+<meta name="description" content="2026年8月30日 自閉症譜系障礙文獻日報，由 AI 自動彙整 PubMed 最新論文"/>
+<style>
+  :root { --bg: #eef4f8; --surface: #f7fbff; --line: #c4d8e8; --text: #1a2d3d; --muted: #5a7a90; --accent: #2a7ab5; --accent-soft: #d4e8f5; --accent-dark: #1a5a8a; --card-bg: color-mix(in srgb, var(--surface) 92%, white); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: radial-gradient(circle at top, #f0f7ff 0, var(--bg) 55%, #d8e8f4 100%); color: var(--text); font-family: "Noto Sans TC", "PingFang TC", "Helvetica Neue", Arial, sans-serif; min-height: 100vh; overflow-x: hidden; }
+  .container { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 60px 32px 80px; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 52px; animation: fadeDown 0.6s ease both; }
+  .logo { width: 48px; height: 48px; border-radius: 14px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; box-shadow: 0 4px 20px rgba(42,122,181,0.25); }
+  .header-text h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .header-meta { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; align-items: center; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; letter-spacing: 0.3px; }
+  .badge-date { background: var(--accent-soft); border: 1px solid var(--line); color: var(--accent); }
+  .badge-count { background: rgba(42,122,181,0.06); border: 1px solid var(--line); color: var(--muted); }
+  .badge-source { background: transparent; color: var(--muted); font-size: 11px; padding: 0 4px; }
+  .summary-card { background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; padding: 28px 32px; margin-bottom: 32px; box-shadow: 0 20px 60px rgba(26,45,61,0.06); animation: fadeUp 0.5s ease 0.1s both; }
+  .summary-card h2 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.6px; color: var(--accent); margin-bottom: 16px; }
+  .summary-text { font-size: 15px; line-height: 1.8; color: var(--text); }
+  .section { margin-bottom: 36px; animation: fadeUp 0.5s ease both; }
+  .section-title { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .section-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--accent-soft); }
+  .news-card { background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; padding: 22px 26px; margin-bottom: 12px; box-shadow: 0 8px 30px rgba(26,45,61,0.04); transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+  .news-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(26,45,61,0.08); }
+  .news-card.featured { border-left: 3px solid var(--accent); }
+  .news-card.featured:hover { border-color: var(--accent); }
+  .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .rank-badge { background: var(--accent); color: #f0f7ff; font-weight: 700; font-size: 12px; padding: 2px 8px; border-radius: 6px; }
+  .emoji-icon { font-size: 18px; }
+  .card-header-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .emoji-sm { font-size: 14px; }
+  .news-card h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
+  .journal-source { font-size: 12px; color: var(--accent); margin-bottom: 8px; opacity: 0.8; }
+  .news-card p { font-size: 13.5px; line-height: 1.75; color: var(--muted); }
+  .card-footer { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tag { padding: 2px 9px; background: var(--accent-soft); border-radius: 999px; font-size: 11px; color: var(--accent); }
+  .news-card a { font-size: 12px; color: var(--accent); text-decoration: none; opacity: 0.7; margin-left: auto; }
+  .news-card a:hover { opacity: 1; }
+  .utility-high { color: #2a7a4a; font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(42,122,74,0.1); border-radius: 4px; }
+  .utility-mid { color: #9f7a2e; font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(159,122,46,0.1); border-radius: 4px; }
+  .utility-low { color: var(--muted); font-size: 11px; font-weight: 600; padding: 2px 8px; background: rgba(90,122,144,0.08); border-radius: 4px; }
+  .utility-sm { font-size: 10px; }
+  .pico-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; padding: 12px; background: rgba(247,251,255,0.8); border-radius: 14px; border: 1px solid var(--line); }
+  .pico-item { display: flex; gap: 8px; align-items: baseline; }
+  .pico-label { font-size: 10px; font-weight: 700; color: #f0f7ff; background: var(--accent); padding: 2px 6px; border-radius: 4px; flex-shrink: 0; }
+  .pico-text { font-size: 12px; color: var(--muted); line-height: 1.4; }
+  .keywords-section { margin-bottom: 36px; }
+  .keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .keyword { padding: 5px 14px; background: var(--accent-soft); border: 1px solid var(--line); border-radius: 20px; font-size: 12px; color: var(--accent); cursor: default; transition: background 0.2s; }
+  .keyword:hover { background: rgba(42,122,181,0.18); }
+  .topic-section { margin-bottom: 36px; }
+  .topic-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .topic-name { font-size: 13px; color: var(--muted); width: 120px; flex-shrink: 0; text-align: right; }
+  .topic-bar-bg { flex: 1; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .topic-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #4a9ad5); border-radius: 4px; transition: width 0.6s ease; }
+  .topic-count { font-size: 12px; color: var(--accent); width: 24px; }
+  .clinic-banner { margin-top: 48px; animation: fadeUp 0.5s ease 0.3s both; }
+  .clinic-link { display: flex; align-items: center; gap: 14px; padding: 18px 24px; background: var(--card-bg); border: 1px solid var(--line); border-radius: 24px; text-decoration: none; color: var(--text); transition: all 0.2s; box-shadow: 0 8px 30px rgba(26,45,61,0.04); margin-bottom: 12px; }
+  .clinic-link:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(26,45,61,0.08); }
+  .clinic-icon { font-size: 28px; flex-shrink: 0; }
+  .clinic-name { font-size: 15px; font-weight: 700; color: var(--text); flex: 1; }
+  .clinic-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .clinic-arrow { font-size: 18px; color: var(--accent); font-weight: 700; }
+  footer { margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; animation: fadeUp 0.5s ease 0.5s both; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 600px) { .container { padding: 36px 18px 60px; } .summary-card, .news-card { padding: 20px 18px; } .pico-grid { grid-template-columns: 1fr; } footer { flex-direction: column; gap: 6px; text-align: center; } .topic-name { width: 80px; font-size: 11px; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">🧩</div>
+    <div class="header-text">
+      <h1>Autism Brain &middot; 自閉症文獻日報</h1>
+      <div class="header-meta">
+        <span class="badge badge-date">📅 2026年8月30日</span>
+        <span class="badge badge-count">📊 15 篇文獻</span>
+        <span class="badge badge-source">Powered by PubMed + NVIDIA Nemotron</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="summary-card">
+    <h2>📋 今日文獻趨勢</h2>
+    <p class="summary-text">本期文獻聚焦於自閉症的基因機制、早期篩檢工具與照護介入，顯示出大量基因學與發展評估的突破，特別在篩檢與早期治療策略方面有顯著進展，同時神經影像與代謝路徑亦有新發現。</p>
+  </div>
+
+  <div class='section'><div class='section-title'><span class='section-icon'>⭐</span>今日精選 TOP Picks</div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#1</span>
+            <span class="emoji-icon">🔍</span>
+            <span class="utility-high">高实用性</span>
+          </div>
+          <h3>新版自閉症篩檢工具在 2 歲幼兒中之鑑別效能</h3>
+          <p class="journal-source">Autism : the international journal of research and practice &middot; Development of the Screening Tool for Autism in Two-Year-Olds-Brief Form: Accuracy in Detecting Autism in Toddlers.</p>
+          <p>簡短篩檢工具能以高敏感度與特異度於 2 歲幼兒中偵測自閉症，具備臨床可行性，可加速早期介入。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">2 歲幼兒（自閉症懷疑族群）</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">新開發之簡短篩檢工具</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">標準診斷工具</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">高敏感度與特異度的診斷準確度提升</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">早期篩檢與診斷</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42660854/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#2</span>
+            <span class="emoji-icon">🤝</span>
+            <span class="utility-high">高实用性</span>
+          </div>
+          <h3>Caregiver Skills Training 在意大利的採用與實施成果</h3>
+          <p class="journal-source">Autism : the international journal of research and practice &middot; Scaling Up Caregiver Support for Autism in Public Health Care: Adoption, Implementation Pace and Sustainability of a Train-the-Trainer Model for the WHO Caregiver Skills Training in Italy.</p>
+          <p>WHO 照護技能訓練的師徒模式在意大利成功擴散，展現可持續的公共衛生照護模式。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">自閉症兒童及其家長</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">WHO Caregiver Skills Training（師徒模式）</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">傳統照護方式</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">照護者技能提升與兒童功能改善的證據</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">照護者培訓</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42509644/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#3</span>
+            <span class="emoji-icon">🗣️</span>
+            <span class="utility-mid">中实用性</span>
+          </div>
+          <h3>自閉症兒童的社交功能與理論論識關係探討</h3>
+          <p class="journal-source">Journal of autism and developmental disorders &middot; Indirect Pathways to Social Functioning in Autistic Children: The Roles of Verbal Comprehension, Task-Based Theory of Mind, and Caregiver-Perceived Theory of Mind.</p>
+          <p>語言理解與照護者認知的理論論識預測兒童社交功能，提供介入切入點。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">自閉症兒童</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">評估語言與理論論識能力</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">對照通常發展兒童</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">語言與理論論識與社交功能呈顯著相關</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">社會溝通</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42640440/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#4</span>
+            <span class="emoji-icon">❤️</span>
+            <span class="utility-mid">中实用性</span>
+          </div>
+          <h3>對自閉症兒童同理心影響行為的實驗研究</h3>
+          <p class="journal-source">Journal of autism and developmental disorders &middot; A Study on the Influence of Empathy on Helping Behavior of Children With Autism Spectrum Disorder Under Different Affective Priming Conditions.</p>
+          <p>情感刺激可調節自閉症兒童的同理心與幫助行為，揭示可行介入。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">自閉症兒童</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">情感 priming 條件下的同理心訓練</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">無 priming 條件</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">情感 priming 增加幫助行為的次數與強度</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">感官處理</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42663880/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#5</span>
+            <span class="emoji-icon">⚖️</span>
+            <span class="utility-mid">中实用性</span>
+          </div>
+          <h3>自閉症與 ADHD 症狀在懷孕期間使用對乙酰氨基酚的關聯性</h3>
+          <p class="journal-source">Journal of the American Academy of Child and Adolescent Psychiatry &middot; Prescription Use of Paracetamol During Pregnancy and Risk of Autism Spectrum Disorder and Attention-Deficit/Hyperactivity Disorder in Early Childhood.</p>
+          <p>大規模人群研究顯示孕期對乙酰氨基酚使用與兒童自閉症與 ADHD 風險增加有關，需謹慎使用。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">孕婦及其兒童後代</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">孕期對乙酰氨基酚使用</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">未使用者</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">兒童 ASD 與 ADHD 風險升高的相對風險</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">共病症（ADHD）</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42660286/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#6</span>
+            <span class="emoji-icon">🌱</span>
+            <span class="utility-mid">中实用性</span>
+          </div>
+          <h3>自閉症兒童的情緒失調與親職壓力干預試驗</h3>
+          <p class="journal-source">Journal of child psychology and psychiatry, and allied disciplines &middot; Multimethod examination of change in autistic preschoolers' emotion dysregulation in the context of parenting stress intervention.</p>
+          <p>親職壓力干預能顯著降低自閉症幼兒的情緒失調，顯示多模式評估的價值。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">自閉症幼兒及其父母</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">親職壓力減輕干預</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">標準照護</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">情緒失調減少與父母壓力降低</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">情緒與行為</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42665438/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div>
+        <div class="news-card featured">
+          <div class="card-header">
+            <span class="rank-badge">#7</span>
+            <span class="emoji-icon">🤖</span>
+            <span class="utility-high">高实用性</span>
+          </div>
+          <h3>自閉症兒童的神經回路重建與可解釋 AI 篩檢工具</h3>
+          <p class="journal-source">Journal of healthcare informatics research &middot; NeuroCypher ASD: Machine Learning with Knowledge Graph-Based Representation for ASD Screening in Toddlers.</p>
+          <p>結合知識圖與可解釋 AI 的自閉症篩檢模型在幼兒中表現優異，提供新一代診斷工具。</p>
+          
+            <div class="pico-grid">
+              <div class="pico-item"><span class="pico-label">P</span><span class="pico-text">自閉症疑似幼兒</span></div>
+              <div class="pico-item"><span class="pico-label">I</span><span class="pico-text">基於知識圖的可解釋 AI 篩檢系統</span></div>
+              <div class="pico-item"><span class="pico-label">C</span><span class="pico-text">傳統篩檢工具</span></div>
+              <div class="pico-item"><span class="pico-label">O</span><span class="pico-text">提升辨識率與解釋透明度</span></div>
+            </div>
+          <div class="card-footer">
+            <span class="tag">基因與分子生物</span><span class="tag">神經影像</span><span class="tag">系統性回顧/統合分析</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42666557/" target="_blank">閱讀原文 →</a>
+          </div>
+        </div></div>
+
+  <div class='section'><div class='section-title'><span class='section-icon'>📚</span>其他值得關注的文獻</div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">🧬</span>
+            <span class="utility-low utility-sm">低</span>
+          </div>
+          <h3>異常 LRP1 變異導致先天性心臟缺損之神經發展障礙</h3>
+          <p class="journal-source">American journal of medical genetics. Part A</p>
+          <p>LRP1 雜合突變與自閉症神經發育障礙及先天性心臟缺損相關。</p>
+          <div class="card-footer">
+            <span class="tag">基因與分子生物</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42649465/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">🔄</span>
+            <span class="utility-low utility-sm">低</span>
+          </div>
+          <h3>自閉症兒童的鏡像神經元系統系統性評論</h3>
+          <p class="journal-source">Neuroscience and biobehavioral reviews</p>
+          <p>系統回顧鏡像神經元在自閉症兒童中的功能差異與潛在康復方案。</p>
+          <div class="card-footer">
+            <span class="tag">神經影像</span><span class="tag">EEG/ERP</span><span class="tag">系統性回顧/統合分析</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42480680/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">🗣️</span>
+            <span class="utility-mid utility-sm">中</span>
+          </div>
+          <h3>自閉症兒童的社交功能與語言理解、理論論識之關係</h3>
+          <p class="journal-source">Journal of autism and developmental disorders</p>
+          <p>語言與理論論識對自閉症兒童社交功能的間接影響路徑。</p>
+          <div class="card-footer">
+            <span class="tag">社會溝通</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42640440/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">❤️</span>
+            <span class="utility-mid utility-sm">中</span>
+          </div>
+          <h3>自閉症兒童的同理心與幫助行為研究</h3>
+          <p class="journal-source">Journal of autism and developmental disorders</p>
+          <p>情感刺激下的同理心影響自閉症兒童的幫助行為。</p>
+          <div class="card-footer">
+            <span class="tag">感官處理</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42663880/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">💬</span>
+            <span class="utility-low utility-sm">低</span>
+          </div>
+          <h3>自閉症兒童與照護者視角的混合神經型對話</h3>
+          <p class="journal-source">Autism : the international journal of research and practice</p>
+          <p>混合神經型對話的研究揭示環境與情感對自閉症語者的影響。</p>
+          <div class="card-footer">
+            <span class="tag">社會溝通</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42547992/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">👃</span>
+            <span class="utility-low utility-sm">低</span>
+          </div>
+          <h3>自閉症兒童的感測器官功能系統性回顧</h3>
+          <p class="journal-source">Autism : the international journal of research and practice</p>
+          <p>嗅覺功能在自閉症光譜障礙全齡層的系統性分析。</p>
+          <div class="card-footer">
+            <span class="tag">感官處理</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42458743/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">💊</span>
+            <span class="utility-low utility-sm">低</span>
+          </div>
+          <h3>自閉症光譜障礙的代謝性酶過度活性治療：BCKD-激酶缺乏</h3>
+          <p class="journal-source">Journal of inherited metabolic disease</p>
+          <p>BCKD-K 缺乏導致的代謝性神經障礙可透過營養治療，屬新興可治療疾病。</p>
+          <div class="card-footer">
+            <span class="tag">藥物治療</span><span class="tag">共病症</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42660645/" target="_blank">PubMed →</a>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="card-header-row">
+            <span class="emoji-sm">🧠</span>
+            <span class="utility-low utility-sm">低</span>
+          </div>
+          <h3>自閉症兒童的神經傳導與迴路重建系統性評論</h3>
+          <p class="journal-source">Trends in psychiatry and psychotherapy</p>
+          <p>磁共振成像顯示自閉症兒童海馬迴路之結構與功能差異。</p>
+          <div class="card-footer">
+            <span class="tag">神經影像</span>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/42647523/" target="_blank">PubMed →</a>
+          </div>
+        </div></div>
+
+  <div class='topic-section section'><div class='section-title'><span class='section-icon'>📊</span>主題分佈</div>
+            <div class="topic-row">
+              <span class="topic-name">早期篩檢</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:100%"></div></div>
+              <span class="topic-count">3</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">社會溝通</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:66%"></div></div>
+              <span class="topic-count">2</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">感官處理</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:66%"></div></div>
+              <span class="topic-count">2</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">基因與分子生物</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:66%"></div></div>
+              <span class="topic-count">2</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">神經影像</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:33%"></div></div>
+              <span class="topic-count">1</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">藥物治療</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:33%"></div></div>
+              <span class="topic-count">1</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">介入治療</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:33%"></div></div>
+              <span class="topic-count">1</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">共病症（ADHD）</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:33%"></div></div>
+              <span class="topic-count">1</span>
+            </div>
+            <div class="topic-row">
+              <span class="topic-name">系統性回顧/統合分析</span>
+              <div class="topic-bar-bg"><div class="topic-bar" style="width:33%"></div></div>
+              <span class="topic-count">1</span>
+            </div></div>
+
+  <div class='keywords-section section'><div class='section-title'><span class='section-icon'>🏷️</span>關鍵字</div><div class='keywords'><span class="keyword">自閉症</span><span class="keyword">早期篩檢</span><span class="keyword">照護者培訓</span><span class="keyword">神經影像</span><span class="keyword">神經科學</span></div></div>
+
+  <div class="clinic-banner">
+    <a href="https://www.leepsyclinic.com/" class="clinic-link" target="_blank">
+      <span class="clinic-icon">🏥</span>
+      <div style="flex:1">
+        <div class="clinic-name">李政洋身心診所</div>
+        <div class="clinic-desc">閃歷診所首頁</div>
+      </div>
+      <span class="clinic-arrow">→</span>
+    </a>
+    <a href="https://blog.leepsyclinic.com/" class="clinic-link" target="_blank">
+      <span class="clinic-icon">📬</span>
+      <div style="flex:1">
+        <div class="clinic-name">訂閱電子報</div>
+        <div class="clinic-desc">收到最新自閉症文獻與臨床資訊</div>
+      </div>
+      <span class="clinic-arrow">→</span>
+    </a>
+  </div>
+
+  <footer>
+    <span>資料來源：PubMed &middot; 分析模型：nvidia/nemotron-3-super-120b-a12b</span>
+    <span><a href="https://github.com/u8901006/autism-brain">GitHub</a></span>
+  </footer>
+</div>
+</body>
+</html>
