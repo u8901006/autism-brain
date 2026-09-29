@@ -15,7 +15,7 @@ import httpx
 
 API_BASE = "https://integrate.api.nvidia.com/v1"
 MODEL_NAME = "nvidia/nemotron-3-super-120b-a12b"
-FALLBACK_MODEL = "nvidia/nemotron-3-nano-30b-a3b"
+FALLBACK_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
 
 SYSTEM_PROMPT = (
     "你是自閉症譜系障礙（ASD）領域的資深研究員與科學傳播者。你的任務是：\n"
