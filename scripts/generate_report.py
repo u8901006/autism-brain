@@ -14,7 +14,7 @@ from datetime import datetime, timezone, timedelta
 import httpx
 
 API_BASE = "https://integrate.api.nvidia.com/v1"
-MODEL_NAME = "nvidia/nemotron-3-super-120b-a12b"
+MODEL_NAME = "nvidia/nemotron-3-ultra-550b-a55b"
 FALLBACK_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
 
 SYSTEM_PROMPT = (
@@ -104,7 +104,7 @@ def analyze_papers(api_key: str, papers_data: dict) -> dict:
 原始文獻資料：
 {papers_text}
 
-請篩選出最重要的 TOP 5-8 篇論文放入 top_picks（按重要性排序），其餘放入 all_papers。
+請只挑出最重要的 TOP 3 篇論文放入 top_picks（按重要性排序），另外最多 3 篇放入 all_papers，其餘省略。請確保完整 JSON，不要輸出不完整的資料。
 每篇 paper 的 tags 請從以下選擇：早期篩檢與診斷、社會溝通、感官處理、重複行為、基因與分子生物、神經影像、EEG/ERP、介入治療、藥物治療、家長培訓、學校支持、共病症（焦慮/憂鬱）、共病症（ADHD）、共病症（睡眠/腸胃/癲癇）、成人自閉症、轉銜與就業、生活品質、系統性回顧/統合分析、神經發炎、微生物相。
 記住：回傳純 JSON，不要用 ```json``` 包裹。"""
 
@@ -121,7 +121,7 @@ def analyze_papers(api_key: str, papers_data: dict) -> dict:
         ],
         "temperature": 1.0,
         "top_p": 0.95,
-        "max_tokens": 4096,
+        "max_tokens": 8192,
         "stream": False,
         "chat_template_kwargs": {"enable_thinking": False},
     }
